@@ -1,5 +1,7 @@
 package com.gx.java8;
 
+import com.tools.GroupByUtil;
+
 import java.util.Arrays;
 import java.util.function.BiFunction;
 import java.util.function.Consumer;
@@ -15,8 +17,8 @@ import java.util.function.Predicate;
  * @since
  */
 public class Test {
-    public static void main(String[] args) {
-        Function<String,String> f= (s)-> "a"+s;
+    public static void main(String[] args) throws Exception {
+      /*  Function<String,String> f= (s)-> "a"+s;
         BiFunction<String,String,String> bf=(s,t)->{
             return s+t;
         };
@@ -31,9 +33,13 @@ public class Test {
         System.out.println(f.apply("1"));
         System.out.println(bf.apply("1","2"));
         System.out.println(p.test("1"));
-        c.accept("456");
+        c.accept("456");*/
 
         Arrays.asList("123","3213","12321").stream().filter(s -> s.length()>4).forEach(System.out::println);
+        GroupByUtil.groupBy("weight",Arrays.asList(new Apple("red",123)
+                ,new Apple("red",123)),"color").forEach((k,v)->{
+            System.out.println(k+"========"+v);
+        });
     }
 
     @FunctionalInterface

@@ -1,42 +1,23 @@
 package com.gx.java8;
 
+import lombok.Data;
+
 /**
  * Created by wangwenjun on 2016/10/12.
  */
+@Data
 public class Apple {
 
     private String color;
-    private long weight;
+    private Integer weight;
 
     public Apple() {
     }
 
-    public Apple(String color, long weight) {
+    public Apple(String color, Integer weight) {
         this.color = color;
         this.weight = weight;
     }
 
-    public String getColor() {
-        return color;
-    }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
-
-    public long getWeight() {
-        return weight;
-    }
-
-    public void setWeight(long weight) {
-        this.weight = weight;
-    }
-
-    @Override
-    public String toString() {
-        return "Apple{" +
-                "color='" + color + '\'' +
-                ", weight=" + weight +
-                '}';
-    }
 }
