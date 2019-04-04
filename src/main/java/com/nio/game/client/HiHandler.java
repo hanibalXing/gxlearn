@@ -7,6 +7,7 @@ import org.jboss.netty.channel.ChannelStateEvent;
 import org.jboss.netty.channel.ExceptionEvent;
 import org.jboss.netty.channel.MessageEvent;
 import org.jboss.netty.channel.SimpleChannelHandler;
+import com.nio.game.common.module.fuben.FBData;
 
 /**
  * 消息接受处理类
@@ -25,11 +26,13 @@ public class HiHandler extends SimpleChannelHandler {
 			if(message.getModule() == 1){
 				
 				if(message.getCmd() == 1){
-					FightResponse fightResponse = new FightResponse();
-					fightResponse.readFromBytes(message.getData());
-					
-					System.out.println("gold:" + fightResponse.getGold());
-					
+					//FightResponse fightResponse = new FightResponse();
+					//fightResponse.readFromBytes(message.getData());
+					FBData.Respone respone = FBData.Respone.parseFrom(message.getData());
+
+
+					//System.out.println("gold:" + fightResponse.getGold());
+					System.out.println("gold:" + respone.getGold());
 				}else if(message.getCmd() == 2){
 					
 				}

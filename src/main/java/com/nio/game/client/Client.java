@@ -8,7 +8,7 @@ import java.util.concurrent.Executors;
 import com.nio.game.common.codc.RequestEncoder;
 import com.nio.game.common.codc.ResponseDecoder;
 import com.nio.game.common.model.Request;
-import com.nio.game.common.module.fuben.request.FightRequest;
+import com.nio.game.common.module.fuben.FBData;
 import org.jboss.netty.bootstrap.ClientBootstrap;
 import org.jboss.netty.channel.Channel;
 import org.jboss.netty.channel.ChannelFuture;
@@ -60,14 +60,19 @@ public class Client {
 			int fubenId = Integer.parseInt(scanner.nextLine());
 			int count = Integer.parseInt(scanner.nextLine());
 			
-			FightRequest fightRequest = new FightRequest();
-			fightRequest.setFubenId(fubenId);
-			fightRequest.setCount(count);
-			
+			//FightRequest fightRequest = new FightRequest();
+			//fightRequest.setFubenId(fubenId);
+			//fightRequest.setCount(count);
+			FBData.Request.Builder builder = FBData.Request.newBuilder();
+			builder.setCount(1);
+			builder.setFubenId(1);
+			FBData.Request build = builder.build();
+
 			Request request = new Request();
 			request.setModule((short) 1);
 			request.setCmd((short) 1);
-			request.setData(fightRequest.getBytes());
+			request.setData(build.toByteArray());
+			//request.setData(fightRequest.getBytes());
 			//发送请求
 			channel.write(request);
 		}

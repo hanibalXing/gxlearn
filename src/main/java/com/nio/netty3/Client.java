@@ -6,7 +6,9 @@ import org.jboss.netty.channel.socket.nio.NioClientSocketChannelFactory;
 import org.jboss.netty.handler.codec.string.StringDecoder;
 import org.jboss.netty.handler.codec.string.StringEncoder;
 
+import java.io.IOException;
 import java.net.InetSocketAddress;
+import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.SynchronousQueue;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -21,8 +23,8 @@ import java.util.concurrent.TimeUnit;
  * @since
  */
 public class Client {
-    public static void main(String[] args) {
-        ClientBootstrap clientBootstrap=new ClientBootstrap();
+    public static void main(String[] args) throws IOException {
+       /* ClientBootstrap clientBootstrap=new ClientBootstrap();
         ThreadPoolExecutor boss = new ThreadPoolExecutor(0, Integer.MAX_VALUE,
                 60L, TimeUnit.SECONDS,
                 new SynchronousQueue<Runnable>(), new ThreadPoolExecutor.AbortPolicy());
@@ -51,7 +53,15 @@ public class Client {
                 connect.cancel();
                 channel.close();
             }
+        }*/
+        Socket socket = new Socket("127.0.0.1", 10000);
+        String message = "hello";
+        for(int i=0; i<1000; i++){
+            socket.getOutputStream().write( message.getBytes());
+            socket.getOutputStream().flush();
         }
+
+        socket.close();
     }
 
 }

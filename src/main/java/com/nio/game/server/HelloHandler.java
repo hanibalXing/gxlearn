@@ -3,6 +3,7 @@ package com.nio.game.server;
 import com.nio.game.common.model.Request;
 import com.nio.game.common.model.Response;
 import com.nio.game.common.model.StateCode;
+import com.nio.game.common.module.fuben.FBData;
 import com.nio.game.common.module.fuben.request.FightRequest;
 import com.nio.game.common.module.fuben.response.FightResponse;
 import org.jboss.netty.channel.ChannelHandlerContext;
@@ -30,20 +31,23 @@ public class HelloHandler extends SimpleChannelHandler {
 			
 			if(message.getCmd() == 1){
 				
-				FightRequest fightRequest = new FightRequest();
-				fightRequest.readFromBytes(message.getData());
-				
+				/*FightRequest fightRequest = new FightRequest();
+				fightRequest.readFromBytes(message.getData());*/
+				FBData.Request fightRequest = FBData.Request.parseFrom(message.getData());
+
 				System.out.println("fubenId:" +fightRequest.getFubenId() + "   " + "count:" + fightRequest.getCount());
 				
 				//回写数据
-				FightResponse fightResponse = new FightResponse();
-				fightResponse.setGold(9999);
-				
+			/*	FightResponse fightResponse = new FightResponse();
+				fightResponse.setGold(9999);*/
+				FBData.Respone.Builder builder = FBData.Respone.newBuilder();
+				builder.setGold(10000);
+				FBData.Respone fightResponse = builder.build();
 				Response response = new Response();
 				response.setModule((short) 1);
 				response.setCmd((short) 1);
 				response.setStateCode(StateCode.SUCCESS);
-				response.setData(fightResponse.getBytes());
+				response.setData(fightResponse.toByteArray());
 				ctx.getChannel().write(response);
 			}else if(message.getCmd() == 2){
 				
