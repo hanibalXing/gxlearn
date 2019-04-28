@@ -25,10 +25,10 @@ public class CollectorsAction {
             new Dish("salmon", false, 450, Dish.Type.FISH));
 
     public static List<Apple> apples=Arrays.asList(
-            new Apple("red",123),
-            new Apple("red",124),
-            new Apple("green",123),
-            new Apple("green",124)
+            new Apple("red",123,1),
+            new Apple("red",124,2),
+            new Apple("green",123,3),
+            new Apple("green",124,4)
     );
 
     public static void main(String[] args) {
@@ -41,12 +41,12 @@ public class CollectorsAction {
         testGroupingByFunctionAndCollector();
         testGroupingByFunctionAndSupplierAndCollector();
         testSummarizingInt();*/
-        Map map = groupBy(apples, "weight", "color");
+        Map map = groupBy(apples, "sugar", "color","weight");
         map.entrySet().forEach(System.out::println);
     }
 
     private static <T> Map groupBy(List<T> list,String sumFiled,String ...groupByFileds) {
-        Map<String, List<T>> collect = list.stream().collect(Collectors.groupingBy(a -> {
+        Map<String, Long> collect = list.stream().collect(Collectors.groupingBy(a -> {
             StringBuilder keyBuilder = new StringBuilder();
             for (String k : groupByFileds) {
                 PropertyDescriptor pd = null;
@@ -58,14 +58,22 @@ public class CollectorsAction {
                 }
             }
             return keyBuilder.toString();
-        },Collectors.counting(c->{
+        },Collectors.summingLong(a->{
             PropertyDescriptor pd = null;
             try {
-                pd = new PropertyDescriptor(sumFiled,);
-                keyBuilder.append(pd.getReadMethod().invoke(c) + "#");
+                pd = new PropertyDescriptor(sumFiled, a.getClass());
+                Object value = pd.getReadMethod().invoke(a);
+                if (value.getClass().equals(Integer.class)) {
+                    return Long.parseLong(value.toString());
+                }
+                if (value.equals(Long.class)) {
+                    return (long)pd.getReadMethod().invoke(a);
+                }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            return 0;
         })));
         return collect;
     }
