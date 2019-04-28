@@ -64,12 +64,13 @@ public class SimpleThreadPool extends Thread {
     }
 
     public void submit(Runnable runnable) {
-        if (destroy)
+        if (destroy) {
             throw new IllegalStateException("The thread pool already destroy and not allow submit task.");
-
+        }
         synchronized (TASK_QUEUE) {
-            if (TASK_QUEUE.size() > queueSize)
+            if (TASK_QUEUE.size() > queueSize) {
                 discardPolicy.discard();
+            }
             TASK_QUEUE.addLast(runnable);
             TASK_QUEUE.notifyAll();
         }
@@ -101,9 +102,9 @@ public class SimpleThreadPool extends Thread {
                         System.out.println("=========Reduce========");
                         int releaseSize = size - active;
                         for (Iterator<WorkerTask> it = THREAD_QUEUE.iterator(); it.hasNext(); ) {
-                            if (releaseSize <= 0)
+                            if (releaseSize <= 0) {
                                 break;
-
+                            }
                             WorkerTask task = it.next();
                             task.close();
                             task.interrupt();
@@ -202,7 +203,7 @@ public class SimpleThreadPool extends Thread {
         public TaskState getTaskState() {
             return this.taskState;
         }
-
+        @Override
         public void run() {
             OUTER:
             while (this.taskState != TaskState.DEAD) {
