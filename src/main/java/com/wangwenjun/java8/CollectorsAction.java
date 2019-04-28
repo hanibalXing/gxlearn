@@ -1,5 +1,7 @@
 package com.wangwenjun.java8;
 
+import java.beans.IntrospectionException;
+import java.beans.PropertyDescriptor;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -22,8 +24,15 @@ public class CollectorsAction {
             new Dish("prawns", false, 300, Dish.Type.FISH),
             new Dish("salmon", false, 450, Dish.Type.FISH));
 
+    public static List<Apple> apples=Arrays.asList(
+            new Apple("red",123),
+            new Apple("red",124),
+            new Apple("green",123),
+            new Apple("green",124)
+    );
+
     public static void main(String[] args) {
-        testAveragingDouble();
+       /* testAveragingDouble();
         testAveragingInt();
         testAveragingLong();
         testCollectingAndThen();
@@ -31,7 +40,34 @@ public class CollectorsAction {
         testGroupingByFunction();
         testGroupingByFunctionAndCollector();
         testGroupingByFunctionAndSupplierAndCollector();
-        testSummarizingInt();
+        testSummarizingInt();*/
+        Map map = groupBy(apples, "weight", "color");
+        map.entrySet().forEach(System.out::println);
+    }
+
+    private static <T> Map groupBy(List<T> list,String sumFiled,String ...groupByFileds) {
+        Map<String, List<T>> collect = list.stream().collect(Collectors.groupingBy(a -> {
+            StringBuilder keyBuilder = new StringBuilder();
+            for (String k : groupByFileds) {
+                PropertyDescriptor pd = null;
+                try {
+                    pd = new PropertyDescriptor(k, a.getClass());
+                    keyBuilder.append(pd.getReadMethod().invoke(a) + "#");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            return keyBuilder.toString();
+        },Collectors.counting(c->{
+            PropertyDescriptor pd = null;
+            try {
+                pd = new PropertyDescriptor(sumFiled,);
+                keyBuilder.append(pd.getReadMethod().invoke(c) + "#");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        })));
+        return collect;
     }
 
     private static void testAveragingDouble() {
@@ -70,8 +106,9 @@ public class CollectorsAction {
 
     private static void testGroupingByFunction() {
         System.out.println("testGroupingByFunction");
-        Optional.of(menu.stream().collect(Collectors.groupingBy(Dish::getType)))
-                .ifPresent(System.out::println);
+       /* Optional.of(menu.stream().collect(Collectors.groupingBy(Dish::getType)))
+                .ifPresent(System.out::println);*/
+         menu.stream().collect(Collectors.groupingBy(Dish::getType));
     }
 
     private static void testGroupingByFunctionAndCollector() {
