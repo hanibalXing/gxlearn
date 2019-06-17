@@ -15,6 +15,8 @@ public class TreeUtil {
     // 入口方法
     public static List<Node> getTree(List<Node> nodeList) {
         List<Node> list = new ArrayList<Node>();
+
+
         // 遍历节点列表
         for (Node node : nodeList) {
             if (node.getParentId().equals("-1")) {

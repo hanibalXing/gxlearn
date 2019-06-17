@@ -1,5 +1,6 @@
 package com.tree;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -26,8 +27,14 @@ public class App {
                 ,new Node("11","2-3-2","9")
                 ,new Node("1","总","-1")
         );
-        List<Node> tree = TreeUtil.getTree(list);
+      /*  List<Node> tree = TreeUtil.getTree(list);
         int treeNodeCount = TreeUtil.getTreeNodeCount(list);
-        List<Node> flatChildren = TreeUtil.getFlatChildren("1",list);
+        List<Node> flatChildren = TreeUtil.getFlatChildren("1",list);*/
+        List<Node> tree=new ArrayList<>();
+        tree.add(new Node("2","1","1"));
+        List<Node> tree1=new ArrayList<>(tree);
+        tree1.add(new Node("2","1","1"));
+        System.out.println(tree.size());
+        System.out.println(tree1.size());
     }
 }
