@@ -34,13 +34,19 @@ public class Test {
         System.out.println(bf.apply("1","2"));
         System.out.println(p.test("1"));
         c.accept("456");*/
-
-        Arrays.asList("123","3213","12321").stream().filter(s -> s.length()>4).forEach(System.out::println);
+        String s="456";
+        new Table().lock(s,s1 -> go(s,s1));
+       /* Arrays.asList("123","3213","12321").stream().filter(s -> s.length()>4).forEach(System.out::println);
         GroupByUtil.groupBy("weight",Arrays.asList(new Apple("red",123)
                 ,new Apple("red",123)),"color").forEach((k,v)->{
             System.out.println(k+"========"+v);
-        });
+        });*/
     }
+
+    public static void  go(String s,String s1) {
+        s1=s1+"789";
+    }
+
 
     @FunctionalInterface
     interface GreetingService<T>
